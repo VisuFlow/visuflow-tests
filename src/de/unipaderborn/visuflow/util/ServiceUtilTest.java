@@ -7,16 +7,16 @@ import org.osgi.service.event.EventAdmin;
 
 public class ServiceUtilTest {
 
-	@Test
-	public void testGetService() {
-		EventAdmin ea = ServiceUtil.getService(EventAdmin.class);
-		Assert.assertNotNull(ea);
-	}
-	
-	@Test(expected=ServiceException.class)
-	public void testServiceNotFound() {
-		// StringBuilder does not make sense here, so it should throw an Exception
-		Object service = ServiceUtil.getService(StringBuilder.class);
-		Assert.assertNull(service);
-	}
+    @Test
+    public void testGetService() {
+        EventAdmin ea = ServiceUtil.getService(EventAdmin.class);
+        Assert.assertNotNull(ea);
+    }
+
+    @Test(expected=ServiceException.class)
+    public void testServiceNotFound() {
+        // StringBuilder does not make sense here, so it should throw an ServiceException
+        Object service = ServiceUtil.getService(StringBuilder.class, 1);
+        Assert.assertNull(service);
+    }
 }
