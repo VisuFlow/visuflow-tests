@@ -9,6 +9,12 @@ public class ServiceUtilTest {
 
     @Test
     public void testGetService() {
+        EventAdmin ea = ServiceUtil.getService(EventAdmin.class);
+        Assert.assertNotNull(ea);
+    }
+
+    @Test
+    public void testGetServiceWithTimeout() {
         EventAdmin ea = ServiceUtil.getService(EventAdmin.class, 1000);
         Assert.assertNotNull(ea);
     }
@@ -16,7 +22,6 @@ public class ServiceUtilTest {
     @Test(expected=ServiceException.class)
     public void testServiceNotFound() {
         // StringBuilder does not make sense here, so it should throw an ServiceException
-        Object service = ServiceUtil.getService(StringBuilder.class, 1);
-        Assert.assertNull(service);
+        ServiceUtil.getService(StringBuilder.class, 1);
     }
 }
