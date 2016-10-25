@@ -9,7 +9,7 @@ public class ServiceUtilTest {
 
     @Test
     public void testGetService() {
-        EventAdmin ea = ServiceUtil.getService(EventAdmin.class);
+        EventAdmin ea = ServiceUtil.getService(EventAdmin.class, 1000);
         Assert.assertNotNull(ea);
     }
 
