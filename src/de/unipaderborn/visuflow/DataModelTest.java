@@ -131,7 +131,7 @@ public class DataModelTest {
 		dataModel.setClassList(listOf(mockA, mockB));
 
 		VFMethod e = mockB.getMethods().get(0);
-		dataModel.setSelectedMethod(e);
+		dataModel.setSelectedMethod(e, false);
 		Assert.assertEquals(e, dataModel.getSelectedMethod());
 	}
 
