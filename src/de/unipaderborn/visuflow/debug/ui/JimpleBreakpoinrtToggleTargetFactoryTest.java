@@ -2,11 +2,6 @@ package de.unipaderborn.visuflow.debug.ui;
 
 import static org.junit.Assert.*;
 
-import java.util.Set;
-
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbenchPart;
-import org.junit.Assert;
 import org.junit.Test;
 
 
