@@ -22,13 +22,17 @@ public class VFMethodEdgeTest {
 		VFMethodEdge vn=new VFMethodEdge(id, s, d);
 		Assert.assertEquals(s,vn.getSourceMethod());
 	}
-
+	public void testsetSourceMethod(VFMethod srcMethod) {
+		this.s = srcMethod;
+	}
 	@Test
 	public void testGetDestMethod() {
 		VFMethodEdge vn=new VFMethodEdge(id, s, d);
 		Assert.assertEquals(d,vn.getDestMethod());
 	}
-
+	public void testsetDestMethod(VFMethod dest) {
+		this.d = dest;
+	}
 	
 	@Test
 	public void testToString() {
