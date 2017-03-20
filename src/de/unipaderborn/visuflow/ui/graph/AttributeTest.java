@@ -14,18 +14,27 @@ import de.unipaderborn.visuflow.ui.Attribute;
 public class AttributeTest {
 	VFUnit vfunit;
 	Shell parentshell;
+	private String analysis1 = "";
+	private String attr1 = "";
 	@Test
 	public void testGetAnalysis() {
 		Attribute a=new Attribute(parentshell);
 		Assert.assertNotNull(a.getAnalysis());
 	}
 
-	
+	public void setAnalysis(String a) {
+		this.analysis1 = a;
+	}
+
 	@Test
 	public void testGetAttribute() {
 		Attribute a=new Attribute(parentshell);
 		Assert.assertNotNull(a.getAttribute());
 	}
+	public void setAttribute(String attr) {
+		this.attr1 = attr;
+	}
+
 
 	
 
