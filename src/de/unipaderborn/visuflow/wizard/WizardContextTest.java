@@ -10,6 +10,8 @@ public class WizardContextTest {
 	public void testIsChecked() {
 		Assert.assertFalse(w.isChecked());
 	}
-
+	public void setChecked(boolean check) {
+		this.checked1 = check;
+	}
 	
 }
