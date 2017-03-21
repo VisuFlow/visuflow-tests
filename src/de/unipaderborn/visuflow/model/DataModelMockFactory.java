@@ -19,6 +19,7 @@ public class DataModelMockFactory {
 			vfm.getSootMethod().setDeclaringClass(mock.getSootClass());
 			vfm.getSootMethod().setDeclared(true);
 			mock.getMethods().add(vfm);
+			vfm.setVfClass(mock);
 		}
 		return mock;
 	}
