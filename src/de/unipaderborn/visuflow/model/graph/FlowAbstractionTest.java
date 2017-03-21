@@ -16,10 +16,13 @@ public class FlowAbstractionTest {
 	private SootField testfield;
 	private Unit newtestSource;
 	
-
 	@Test
 	public void testHashCode() {
 		FlowAbstraction fa=new FlowAbstraction(testsource, testlocal);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((testlocal == null) ? 0 : testlocal.hashCode());
+		result = prime * result + ((testfield == null) ? 0 : testfield.hashCode());
 		Assert.assertNotNull(fa.hashCode());
 	}
 
@@ -44,7 +47,7 @@ public class FlowAbstractionTest {
 	
 	@Test
 	public void testToString() {
-		String s="LOCAL " + testlocal;
+			String s="LOCAL " + testlocal;
 		String f="LOCAL " + testlocal;
 		String nul="";
 		FlowAbstraction fa=new FlowAbstraction(testsource,testlocal);
