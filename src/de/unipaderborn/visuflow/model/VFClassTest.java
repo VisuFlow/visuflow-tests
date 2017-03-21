@@ -1,29 +1,22 @@
 package de.unipaderborn.visuflow.model;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import soot.SootClass;
-
 public class VFClassTest {
-   private static final SootClass Someclass=null;
-
-   @Test
-	public void testVFClass() {
-	  
-	}
 
 	@Test
 	public void testGetSootClass() {
-	
+		VFClass c = DataModelMockFactory.createMockClass("foo.Bar", "a", "b", "c");
+		Assert.assertNotNull(c.getSootClass());
+		Assert.assertEquals("foo.Bar", c.getSootClass().getName());
 	}
 
 	@Test
 	public void testGetMethods() {
-		VFClass v=new VFClass(Someclass);
-		Assert.assertNotNull(v.getMethods());
+		VFClass c = DataModelMockFactory.createMockClass("foo.Bar", "a", "b", "c");
+		Assert.assertNotNull(c.getMethods());
+		Assert.assertEquals(3, c.getMethods().size());
 	}
 
 }

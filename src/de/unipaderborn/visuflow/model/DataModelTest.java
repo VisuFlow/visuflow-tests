@@ -1,4 +1,7 @@
-package de.unipaderborn.visuflow;
+package de.unipaderborn.visuflow.model;
+
+import static de.unipaderborn.visuflow.model.DataModelMockFactory.createMockClass;
+import static de.unipaderborn.visuflow.model.DataModelMockFactory.createMockUnit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,20 +12,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.osgi.service.event.EventAdmin;
 
-import de.unipaderborn.visuflow.model.DataModel;
-import de.unipaderborn.visuflow.model.VFClass;
-import de.unipaderborn.visuflow.model.VFMethod;
-import de.unipaderborn.visuflow.model.VFUnit;
 import de.unipaderborn.visuflow.model.graph.ICFGStructure;
 import de.unipaderborn.visuflow.model.impl.DataModelImpl;
 import de.unipaderborn.visuflow.util.ServiceUtil;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.Unit;
-import soot.VoidType;
-import soot.jimple.internal.JReturnVoidStmt;
-import soot.tagkit.AttributeValueException;
-import soot.tagkit.Tag;
 
 public class DataModelTest {
 
@@ -148,41 +140,6 @@ public class DataModelTest {
 		VFClass unknownClass = createMockClass("mockB", "a", "b", "c");
 		VFMethod unknownMethod = unknownClass.getMethods().get(0);
 		Assert.assertEquals(null, dataModel.getVFMethodByName(unknownMethod.getSootMethod()));
-	}
-
-	private VFClass createMockClass(String name, String... methods) {
-		VFClass mock = new VFClass(new SootClass(name));
-		mock.getSootClass().setName(name);
-		for (String method : methods) {
-			VFMethod vfm = createMockMethod(name, method);
-			vfm.getSootMethod().setDeclaringClass(mock.getSootClass());
-			vfm.getSootMethod().setDeclared(true);
-			mock.getMethods().add(vfm);
-		}
-		return mock;
-	}
-
-	private VFMethod createMockMethod(String className, String methodName) {
-		SootMethod sm = new SootMethod(methodName, Collections.emptyList(), VoidType.v());
-		VFMethod method = new VFMethod(sm);
-		return method;
-	}
-
-	private VFUnit createMockUnit(String fqn) {
-		Unit u = new JReturnVoidStmt();
-		u.addTag(new Tag() {
-			@Override
-			public byte[] getValue() throws AttributeValueException {
-				return fqn.getBytes();
-			}
-
-			@Override
-			public String getName() {
-				return "Fully Qualified Name";
-			}
-		});
-		VFUnit unit = new VFUnit(u);
-		return unit;
 	}
 
 	private DataModel setupDataModel() {

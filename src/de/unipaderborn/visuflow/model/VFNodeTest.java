@@ -1,28 +1,34 @@
 package de.unipaderborn.visuflow.model;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
+
 public class VFNodeTest {
-	VFUnit vfUnit;
-	int id;
-	
 
 	@Test
-	public void testGetVFUnit() {
-		VFNode vn=new VFNode(vfUnit,id);
-		Assert.assertEquals(vfUnit,vn.getVFUnit());
+	public void testConstructor() {
+		VFUnit unit = DataModelMockFactory.createMockUnit("a.b.c.Foo.bar.return");
+		VFNode node = new VFNode(unit, 123);
+		Assert.assertEquals(unit, node.getVFUnit());
+		Assert.assertEquals(unit.getUnit(), node.getUnit());
+		Assert.assertEquals(123, node.getId());
 	}
-
-
 
 	@Test
-	public void testGetId() {
-		VFNode vn=new VFNode(vfUnit,id);
-		Assert.assertNotNull(vn.getId());
+	public void testSetLabel() {
+		VFNode node = new VFNode(null, 123);
+		VFUnit unit = DataModelMockFactory.createMockUnit("a.b.c.Foo.bar.return");
+		node.setLabel(unit);
+		Assert.assertEquals(unit, node.getVFUnit());
+		Assert.assertEquals(unit.getUnit(), node.getUnit());
+		Assert.assertEquals(123, node.getId());
 	}
 
+	@Test
+	public void testSetId() {
+		VFNode node = new VFNode(null, 123);
+		node.setId(456);
+		Assert.assertEquals(456, node.getId());
+	}
 }
