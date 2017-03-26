@@ -8,10 +8,9 @@ public class WizardContextTest {
 	WizardContext w=new WizardContext();
 	@Test
 	public void testIsChecked() {
-		Assert.assertFalse(w.isChecked());
+		w.setChecked(checked1);
+		Assert.assertEquals(checked1,w.isChecked());
 	}
-	public void setChecked(boolean check) {
-		this.checked1 = check;
-	}
+
 	
 }
