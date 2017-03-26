@@ -15,12 +15,17 @@ public class VisuflowNatureTest {
 
 	IProject project;
 
-	@Before
-	public void createProject() throws CoreException {
+	public static IProject createIProject() throws CoreException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		project = root.getProject("TestProject");
+		IProject project = root.getProject("TestProject");
 		project.create(null);
 		project.open(null);
+		return project;
+	}
+
+	@Before
+	public void createProject() throws CoreException {
+		this.project = createIProject();
 	}
 
 	@After
@@ -34,16 +39,7 @@ public class VisuflowNatureTest {
 			VisuFlowNature vn = new VisuFlowNature();
 			vn.setProject(project);
 			vn.configure();
-			IProjectDescription desc = project.getDescription();
-			ICommand[] buildCommands = desc.getBuildSpec();
-			boolean jimpleBuilderInstalled = false;
-			for (ICommand cmd : buildCommands) {
-				if(cmd.getBuilderName().equals(JimpleBuilder.BUILDER_ID)) {
-					jimpleBuilderInstalled = true;
-					break;
-				}
-			}
-			Assert.assertTrue(jimpleBuilderInstalled);
+			Assert.assertTrue(isJimpleBuilderInstalled(project));
 		} catch (CoreException e) {
 			Assert.fail(e.getMessage());
 		}
@@ -57,19 +53,23 @@ public class VisuflowNatureTest {
 			VisuFlowNature vn = new VisuFlowNature();
 			vn.setProject(project);
 			vn.deconfigure();
-			IProjectDescription desc = project.getDescription();
-			ICommand[] buildCommands = desc.getBuildSpec();
-			boolean jimpleBuilderInstalled = false;
-			for (ICommand cmd : buildCommands) {
-				if(cmd.getBuilderName().equals(JimpleBuilder.BUILDER_ID)) {
-					jimpleBuilderInstalled = true;
-					break;
-				}
-			}
-			Assert.assertFalse(jimpleBuilderInstalled);
+			Assert.assertFalse(isJimpleBuilderInstalled(project));
 		} catch (CoreException e) {
 			Assert.fail(e.getMessage());
 		}
+	}
+
+	public static boolean isJimpleBuilderInstalled(IProject project) throws CoreException {
+		IProjectDescription desc = project.getDescription();
+		ICommand[] buildCommands = desc.getBuildSpec();
+		boolean jimpleBuilderInstalled = false;
+		for (ICommand cmd : buildCommands) {
+			if(cmd.getBuilderName().equals(JimpleBuilder.BUILDER_ID)) {
+				jimpleBuilderInstalled = true;
+				break;
+			}
+		}
+		return jimpleBuilderInstalled;
 	}
 
 	@Test
