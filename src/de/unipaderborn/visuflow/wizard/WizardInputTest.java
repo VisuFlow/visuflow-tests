@@ -30,151 +30,138 @@ public class WizardInputTest {
 	@Test
 	public void testGetSootPath() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testsootPath,wi.getSootPath());
+		Path sootPath1 = null;
+		wi.setSootPath(sootPath1);
+		Assert.assertEquals(sootPath1,wi.getSootPath());
 	}
-//	@Test
-	public void testsetSootPath(Path sootPath1) {
-		this.testsootPath = sootPath1;
-	}
+
 	@Test
 	public void testGetFile() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testfile,wi.getFile());
+		File f = null;
+		wi.setFile(f);
+		
+		Assert.assertEquals(f,wi.getFile());
 	}
 	
-	public void testsetFile(File f) {
-		this.testfile = f;
-	}
 
 	@Test
 	public void testGetFlowType() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testflowType,wi.getFlowType());
+		String fl = null;
+		wi.setFlowType(fl);
+		Assert.assertEquals(fl,wi.getFlowType());
 	}
 	
-	public void testsetFlowType(String fl) {
-		this.testflowType = fl;
-	}
+	
 	@Test
 	public void testGetFlowType1() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testflowType1,wi.getFlowType1());
+		String fl1 = null;
+		wi.setFlowType1(fl1);
+		Assert.assertEquals(fl1,wi.getFlowType1());
 	}
 	
-	public void testsetFlowType1(String fl1) {
-		this.testflowType1 = fl1;
-	}
 
 	@Test
 	public void testGetFlowtype2() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testflowtype2,wi.getFlowtype2());
+		String fl2 = null;
+		wi.setFlowType1(fl2);
+		Assert.assertEquals(fl2,wi.getFlowtype2());
 	}
 	
-	public void setFlowtype2(String fl2) {
-		this.testflowtype2 = fl2;
-	}
-	
-	public void setCustomClassFirst(String customCl) {
-		this.testcustomClassFirst = customCl;
-	}
+
 	@Test
 	public void testGetCustomClassFirst() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testcustomClassFirst,wi.getCustomClassFirst());
+		String customCl = null;
+		wi.setCustomClassFirst(customCl);
+		Assert.assertEquals(customCl,wi.getCustomClassFirst());
 	}
 	
-	public void setCustomClassSecond(String customClSecond) {
-		this.testcustomClassSecond = customClSecond;
-	}
 	@Test
 	public void testGetCustomClassSecond() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testcustomClassSecond,wi.getCustomClassSecond());
+		String customCl2 = null;
+		wi.setCustomClassSecond(customCl2);
+		Assert.assertEquals(customCl2,wi.getCustomClassSecond());
 	}
 	
-	public void setProjectPath(String projPath) {
-		testProjectPath = projPath;
-	}
-
+	
 	@Test
 	public void testGetProjectPath() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testProjectPath,wi.getProjectPath());
+		String projPath = null;
+		wi.setProjectPath(projPath);
+		Assert.assertEquals(projPath,wi.getProjectPath());
 	}
 
 	@Test
 	public void testGetTargetPath() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testTargetPath,wi.getTargetPath());
+		String target="a";
+		wi.setTargetPath(target);
+		Assert.assertEquals(target,wi.getTargetPath());
 	}
 	
-	public void testsetTargetPath(String target) {
-		testTargetPath = target;
-	}
 	@Test
 	public void testGetProjectName() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testProjectName,wi.getProjectName());
+		String projName= "something";
+		wi.setProjectName(projName);
+		Assert.assertEquals(projName,wi.getProjectName());
 	}
 	
-	public void testsetProjectName(String projName) {
-		testProjectName = projName;
-	}
 
 	@Test
 	public void testGetPackageName() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testPackageName,wi.getPackageName());
+		String packName="somepackage";
+		wi.setPackageName(packName);
+		Assert.assertEquals(packName,wi.getPackageName());
 	}
 	
-	public void setPackageName(String packName) {
-		testPackageName = packName;
-	}
 	@Test
 	public void testGetClassName() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testClassName,wi.getClassName());
+		String clName="classname";
+		wi.setClassName(clName);
+		Assert.assertEquals(clName,wi.getClassName());
 	}
     
-    public void setClassName(String clName) {
-	testClassName = clName;
-    }
+   
 	@Test
 	public void testGetAnalysisType() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testAnalysisType,wi.getAnalysisType());
+		String analysistype="InterProceduralAnalysis";
+		String analysistype1="IntraProceduralAnalysis";
+		wi.setAnalysisType("InterProceduralAnalysis");
+		Assert.assertEquals(analysistype,wi.getAnalysisType());
+		wi.setAnalysisType("IntraProceduralAnalysis");
+		Assert.assertEquals(analysistype1,wi.getAnalysisType());
 	}
 	
-	public void testsetAnalysisType(String analysistype) {
-		switch(analysistype){
-		case "Inter Procedural Analysis":
-			testAnalysisType = "InterProceduralAnalysis";
-			break;
-		case "Intra Procedural Analysis":
-			testAnalysisType = "IntraproceduralAnalysis";
-			break;
-		default:testAnalysisType = analysistype;
-		}
-	}
+	
 	@Test
 	public void testGetAnalysisFramework() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testAnalysisFramework,wi.getAnalysisFramework());
+		
+		String analysisFramework="frame";
+		wi.setAnalysisFramework(analysisFramework);
+		Assert.assertEquals(analysisFramework,wi.getAnalysisFramework());
 	}
 	
-	public void testsetAnalysisFramework(String analysisFramework) {
-		testAnalysisFramework = analysisFramework;
-	}
-
 	@Test
 	public void testGetAnalysisDirection() {
 		WizardInput wi=new WizardInput();
-		Assert.assertEquals(testAnalysisDirection,wi.getAnalysisDirection());
+		String analysisDirection="Forward";
+		wi.setAnalysisDirection(analysisDirection);
+		Assert.assertEquals(analysisDirection,wi.getAnalysisDirection());
+		String analysisDirection1="Backward";
+		wi.setAnalysisDirection(analysisDirection1);
+		Assert.assertEquals(analysisDirection1,wi.getAnalysisDirection());
 	}
 	
-	public void testsetAnalysisDirection(String analysisDirection) {
-		testAnalysisDirection = analysisDirection;
-	}
 
 }
