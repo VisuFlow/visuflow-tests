@@ -35,6 +35,11 @@ public class DataModelMockFactory {
 		return sm;
 	}
 
+	public static SootClass createSootClass(String className) {
+		SootClass sc = new SootClass(className);
+		return sc;
+	}
+
 	public static VFUnit createMockUnit(String fqn) {
 		Unit u = new JReturnVoidStmt();
 		u.addTag(new Tag() {

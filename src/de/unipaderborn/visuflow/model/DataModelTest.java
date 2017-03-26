@@ -1,6 +1,7 @@
 package de.unipaderborn.visuflow.model;
 
 import static de.unipaderborn.visuflow.model.DataModelMockFactory.createMockClass;
+import static de.unipaderborn.visuflow.model.DataModelMockFactory.createMockMethod;
 import static de.unipaderborn.visuflow.model.DataModelMockFactory.createMockUnit;
 
 import java.util.ArrayList;
@@ -10,11 +11,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import de.unipaderborn.visuflow.model.graph.ICFGStructure;
 import de.unipaderborn.visuflow.model.impl.DataModelImpl;
-import de.unipaderborn.visuflow.util.ServiceUtil;
 
 public class DataModelTest {
 
@@ -62,6 +63,33 @@ public class DataModelTest {
 		Assert.assertEquals("g", methods.get(2).getSootMethod().getName());
 	}
 
+	@Test
+	public void testListUnitsForEmptyModel() {
+		DataModel dataModel = new DataModelImpl();
+		List<VFUnit> units = dataModel.listUnits(createMockMethod("Foo", "foobar"));
+		Assert.assertEquals(0, units.size());
+	}
+
+	@Test
+	public void testListUnitsForFilledModel() {
+		DataModel dataModel = setupDataModel();
+		VFClass mockA = createMockClass("mockA", "a", "b", "c");
+		dataModel.setClassList(listOf(mockA));
+		VFMethod a = mockA.getMethods().get(0);
+		VFUnit unit1 = createMockUnit("a.b.c.Foo.bar.r1 = $r2;");
+		unit1.setVfMethod(a);
+		VFUnit unit2 = createMockUnit("a.b.c.Foo.bar.r2 = $r3;");
+		unit2.setVfMethod(a);
+		VFUnit unit3 = createMockUnit("a.b.c.Foo.bar.return;");
+		unit3.setVfMethod(a);
+		a.getUnits().addAll(listOf(unit1, unit2, unit3));
+
+		List<VFUnit> units = dataModel.listUnits(a);
+		Assert.assertEquals(3, units.size());
+		Assert.assertTrue(units.contains(unit1));
+		Assert.assertTrue(units.contains(unit2));
+		Assert.assertTrue(units.contains(unit3));
+	}
 
 	@Test
 	public void testSelectedClass() {
@@ -116,6 +144,14 @@ public class DataModelTest {
 	}
 
 	@Test
+	public void testSetIcfg() {
+		DataModel dataModel = setupDataModel();
+		ICFGStructure icfg = new ICFGStructure();
+		dataModel.setIcfg(icfg);
+		Assert.assertEquals(icfg, dataModel.getIcfg());
+	}
+
+	@Test
 	public void testSelectedMethod() {
 		DataModel dataModel = setupDataModel();
 		VFClass mockA = createMockClass("mockA", "a", "b", "c");
@@ -142,9 +178,58 @@ public class DataModelTest {
 		Assert.assertEquals(null, dataModel.getVFMethodByName(unknownMethod.getSootMethod()));
 	}
 
-	private DataModel setupDataModel() {
+	@Test
+	public void testFilterGraph() {
+		DataModelImpl impl = setupDataModel();
+		EventAdminImpl eventAdmin = new EventAdminImpl();
+		impl.setEventAdmin(eventAdmin);
+
+		VFClass vfClass = createMockClass("a.b.c.Foo", "bar");
+		VFMethod vfMethod = vfClass.getMethods().get(0);
+		VFUnit unit = createMockUnit("a.b.c.Foo.bar.return;");
+		vfMethod.getUnits().add(unit);
+		unit.setVfMethod(vfMethod);
+		impl.setClassList(Collections.singletonList(vfClass));
+		VFNode node = new VFNode(unit, 0);
+		List<VFNode> toFilter = Collections.singletonList(node);
+
+		try {
+			impl.filterGraph(toFilter, true, false, "filter");
+			Event event = eventAdmin.event;
+			Assert.assertEquals(DataModel.EA_TOPIC_DATA_FILTER_GRAPH, event.getTopic());
+			Assert.assertEquals(toFilter, event.getProperty("nodesToFilter"));
+			Assert.assertEquals(true, event.getProperty("selection"));
+			Assert.assertEquals("filter", event.getProperty("uiClassName"));
+			Assert.assertEquals(false, event.getProperty("panToNode"));
+
+			impl.filterGraph(toFilter, true, false, null);
+			event = eventAdmin.event;
+			Assert.assertEquals("filter", event.getProperty("uiClassName"));
+
+			impl.filterGraph(Collections.emptyList(), true, false, null);
+			event = eventAdmin.event;
+			Assert.assertEquals(0, ((List<?>)event.getProperty("nodesToFilter")).size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testRefreshView() {
 		DataModelImpl model = new DataModelImpl();
-		model.setEventAdmin(ServiceUtil.getService(EventAdmin.class));
+		EventAdminImpl eventAdmin = new EventAdminImpl();
+		model.setEventAdmin(eventAdmin);
+		model.refreshView();
+
+		Event event = eventAdmin.event;
+		Assert.assertEquals(DataModel.EA_TOPIC_DATA_VIEW_REFRESH, event.getTopic());
+		Assert.assertEquals(1, event.getPropertyNames().length);
+	}
+
+	private DataModelImpl setupDataModel() {
+		DataModelImpl model = new DataModelImpl();
+		model.setEventAdmin(new EventAdminImpl());
 		model.setIcfg(new ICFGStructure());
 		model.setClassList(new ArrayList<VFClass>());
 		return model;
@@ -153,5 +238,19 @@ public class DataModelTest {
 	@SafeVarargs
 	private final <T> List<T> listOf(T... items) {
 		return Arrays.asList(items);
+	}
+
+	private class EventAdminImpl implements EventAdmin {
+		Event event;
+
+		@Override
+		public void postEvent(Event event) {
+			this.event = event;
+		}
+
+		@Override
+		public void sendEvent(Event event) {
+			this.event = event;
+		}
 	}
 }
