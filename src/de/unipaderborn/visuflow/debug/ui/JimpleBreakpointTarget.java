@@ -20,6 +20,7 @@ public class JimpleBreakpointTarget  {
 		Assert.assertNotNull(j.getDefaultToggleTarget(testpart,testselection));
 	}
 
+
 	@Test
 	public void testGetToggleTargetName() {
 		
