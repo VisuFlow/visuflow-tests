@@ -15,17 +15,15 @@ public class VisuflowNatureTest {
 
 	IProject project;
 
-	public static IProject createIProject() throws CoreException {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IProject project = root.getProject("TestProject");
-		project.create(null);
-		project.open(null);
-		return project;
-	}
-
 	@Before
 	public void createProject() throws CoreException {
-		this.project = createIProject();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		project = root.getProject("TestProject");
+		if(project.exists()) {
+			project.delete(true, null);
+		}
+		project.create(null);
+		project.open(null);
 	}
 
 	@After
