@@ -39,6 +39,10 @@ public class ValueFormatterTest {
 
 		in = "foobar";
 		Assert.assertEquals(in, ValueFormatter.shortenClassNames(in));
+
+		in = "<org.graphstream.stream.file.FileSinkImages$Option: org.graphstream.stream.file.FileSinkImages$Option[] values()>()";
+		out = "<FileSinkImages$Option: org.graphstream.stream.file.FileSinkImages$Option[] values()>()";
+		Assert.assertEquals(out, ValueFormatter.shortenClassNames(in));
 	}
 
 	@Test
