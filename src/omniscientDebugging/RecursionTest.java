@@ -22,7 +22,7 @@ public class RecursionTest extends AbstractTest{
 		VFUnit currentUnit = dataModel.getCurrentUnit();
 		Assert.assertEquals("de.userstudy.target1.Target.recursion.r0.<de.userstudy.target1.Target: java.lang.String data> = r2", currentUnit.getFullyQualifiedName());
 		Assert.assertEquals("[LOCAL r2 FIELD []]", currentUnit.getInSet());
-		Assert.assertEquals("LOCAL r2 FIELD []], [LOCAL r0 FIELD [<de.userstudy.target1.Target: java.lang.String data>]]", currentUnit.getOutSet());
+		Assert.assertEquals("[LOCAL r0 FIELD [<de.userstudy.target1.Target: java.lang.String data>], LOCAL r2 FIELD []]", currentUnit.getOutSet());
 		
 		String EA_TOPIC_DEBUGGING_ACTION_STEP_BACK = "de/unipaderborn/visuflow/debug/stepBack";
 		EventAdmin ea = ServiceUtil.getService(EventAdmin.class);
